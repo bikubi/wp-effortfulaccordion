@@ -165,5 +165,5 @@ add_shortcode('accordion', function ($atts, $content = null) {
 		'mode' => shortcode_default_mode,
 		'h' => shortcode_default_h
 	), $atts);
-	return content_split($a['mode'], $a['h']);
+	return content_split($a['mode'], $a['h'], $content);
 });
