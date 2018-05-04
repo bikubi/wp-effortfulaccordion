@@ -1,6 +1,5 @@
 // collapse.js and transition.js from Bootstrap 3
 //
-console.log('yeah');
 
 (
 
@@ -13,7 +12,7 @@ console.log('yeah');
  * ======================================================================== */
 
 
-+function ($) {
+function ($) {
   'use strict';
 
   // COLLAPSE PUBLIC CLASS DEFINITION
@@ -218,6 +217,7 @@ console.log('yeah');
 
 //kk
 )(jQuery);
+
 (
 
 /* ========================================================================
@@ -229,7 +229,7 @@ console.log('yeah');
  * ======================================================================== */
 
 
-+function ($) {
+function ($) {
   'use strict';
 
   // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
