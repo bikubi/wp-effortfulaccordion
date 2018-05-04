@@ -41,7 +41,7 @@ function sanitize_str ($str, $fallback) {
 	);
 }
 
-function content_split ($mode = 'accordion', $h = 2, $content = null) {
+function content_split ($mode = 'accordion', $h = 2, $open = 'first', $content = null) {
 	global $post;
 	if ($content === null) {
 		$content = $post->post_content;
@@ -55,11 +55,21 @@ function content_split ($mode = 'accordion', $h = 2, $content = null) {
 	$pre = $split[0];
 	$ret = ''; //TODO check if this works for all modes
 	$didcolumn = false;
+	switch ($open) {
+	case 'last':
+		$open_s = count($split) - 2;
+		break;
+	case 'first':
+	default:
+		$open_s = 1;
+		break;
+	}
 	for ($s = 1; $s < count($split); $s++) {
 		$_ = $split[$s];
 		if ($s % 2 === 1) {
 			$idx = (int) floor($s / 2) + 1;
 			$id = sanitize_str($_, 'h'.(($s - 2) / 2));
+			$is_open = $s === $open_s;
 			switch ($mode) {
 			case 'tabs':
 				$ret .= sprintf('<h%d>%s</h%d>', $h, $_, $h);
@@ -76,13 +86,13 @@ function content_split ($mode = 'accordion', $h = 2, $content = null) {
 				case 4:
 					$ret .= '<div class="card">';
 					$ret .= sprintf('<div class="card-header" id="%s"><h%d><button class="btn btn-link %s" data-toggle="collapse" data-target="#c_%s" aria-expanded="%s" aria-controls="c_%s">%s</button></h%d></div>',
-						$id, $h, ($s === 1 ? '' : 'collapsed'), $id, ($s === 1 ? 'true' : 'false'), $id, $_, $h);
+						$id, $h, ($is_open ? '' : 'collapsed'), $id, ($s === $is_open ? 'true' : 'false'), $id, $_, $h);
 					break;
 				case 3:
 				default:
 					$ret .= '<div class="panel">';
 					$ret .= sprintf('<div class="panel-heading" role="tab" id="%s"><h%d><a role="button" data-toggle="collapse" data-parent="#accordion%s" href="#c_%s" aria-expanded="%s" aria-controls="c_%s" class="%s">%s</a></h%d></div>',
-						$id, $h, $parent_id_suffix, $id, ($s === 1 ? 'true' : 'false'), $id, ($s === 1 ? '' : 'collapsed'), $_, $h
+						$id, $h, $parent_id_suffix, $id, ($is_open ? 'true' : 'false'), $id, ($is_open ? '' : 'collapsed'), $_, $h
 					);
 				}
 				break;
@@ -102,6 +112,7 @@ function content_split ($mode = 'accordion', $h = 2, $content = null) {
 			$lowerh_post = (count($lowerh_split) > 1)
 				? $lowerh_split[1].$lowerh_split[2]
 				: '';
+			$is_open = $s === $open_s + 1;
 			switch ($mode) {
 			case 'tabs':
 				$ret .= sprintf('<div class="tab" id="%s">%s</div>%s', $id, $lowerh_pre, $lowerh_post);
@@ -117,7 +128,7 @@ function content_split ($mode = 'accordion', $h = 2, $content = null) {
 				switch (bootstrap_version) {
 				case 4:
 					$ret .= sprintf('<div id="c_%s" class="collapse %s" aria-labelledby="%s" data-parent="#accordion%s"><div class="card-body">%s</div></div>',
-						$id, ($s === 2 ? 'show' : ''), $id, $parent_id_suffix, $lowerh_pre
+						$id, ($is_open ? 'show' : ''), $id, $parent_id_suffix, $lowerh_pre
 					);
 					$ret .= '</div><!-- end class="card" -->';
 					$ret .= $lowerh_post;
@@ -125,7 +136,7 @@ function content_split ($mode = 'accordion', $h = 2, $content = null) {
 				case 3:
 				default:
 					$ret .= sprintf('<div id="c_%s" class="panel-collapse collapse %s" role="tabpanel" aria-labelledby="%s"><div class="panel-body">%s</div></div>',
-						$id, ($s === 2 ? 'in' : ''), $id, $lowerh_pre 
+						$id, ($is_open ? 'in' : ''), $id, $lowerh_pre 
 					);
 					$ret .= '</div><!--end class="panel-->';
 					$ret .= $lowerh_post;
@@ -172,7 +183,8 @@ add_filter('the_content', function ($content) {
 add_shortcode('accordion', function ($atts, $content = null) {
 	$a = shortcode_atts(array(
 		'mode' => shortcode_default_mode,
-		'h' => shortcode_default_h
+		'h' => shortcode_default_h,
+		'open' => 'first'
 	), $atts);
-	return content_split($a['mode'], $a['h'], $content);
+	return content_split($a['mode'], $a['h'], $a['open'], $content);
 });
