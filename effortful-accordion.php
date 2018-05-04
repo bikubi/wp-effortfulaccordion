@@ -36,9 +36,8 @@ function content_preg_split ($hlevel, $content) {
 }
 
 function sanitize_str ($str, $fallback) {
-	return strtr(
-		sanitize_title($str, $fallback),
-		'-', '_'
+	return preg_replace('/\W/', '_',
+		sanitize_title($str, $fallback)
 	);
 }
 
@@ -150,7 +149,11 @@ function content_split ($mode = 'accordion', $h = 2, $content = null) {
 	case 'tabs':
 		return $pre.'<div class="content tabbed">'.$ret.'</div>';
 	case 'accordion':
-		return $pre.'<div class="panel-group" id="accordion'.$parent_id_suffix.'" role="tablist" aria-multiselectable="true">'.$ret.'</div>';
+		return sprintf('<div class="%s" id="accordion%s" role="tablist" aria-multiselectable="true">%s</div>',
+			bootstrap_version === 3 ? 'panel-group' : 'accordion',
+			$parent_id_suffix,
+			$ret
+		);
 	case 'columnize':
 		return $pre.'<div class="cols cols2"><div>'.$ret.'</div></div>';
 	case 'multicol':
@@ -159,6 +162,12 @@ function content_split ($mode = 'accordion', $h = 2, $content = null) {
 		return $pre.$ret;
 	}
 }
+add_filter('the_content', function ($content) {
+        /* shortcodes, die alleine in einer Zeile stehen, erhalten u.U. <p>s:
+           <p>[spalte]</p> - diese werden hiermit entfernt: */
+        $content = preg_replace('@(?:</?p>)?(\[/?accordion?[\s\d\w="]*\])(?:</?p>)?@', '$1', $content);
+	return $content;
+});
 
 add_shortcode('accordion', function ($atts, $content = null) {
 	$a = shortcode_atts(array(
