@@ -2,9 +2,9 @@
 /*
 Plugin Name: Effortful Accordion
 Description: Convert content with headings to accordions. Flexible and once set up and configured, simple to use for end-users.
-Version: 0.0.1
+Version: 0.1.0
 Author: Jakob Wierzba
-Author URI: http://jakobwierzba.de/
+Author URI: http://3c33.de/
 Text Domain: effortful-accordion
 */
 
