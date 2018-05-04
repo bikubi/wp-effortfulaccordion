@@ -1,43 +1,51 @@
 // setup paddings for smooth animations
+//FIXME test scss, test bootstrap4 code
 
-.panel-heading > * {
-	margin: 0;
-	> a[role="button"] {
-		padding: .5em 0;
-	}
+.panel-heading > *,
+.accordion .card-header > * {
+  margin: 0;
+
+  > a[role="button"],
+  > button {
+    padding: .5em 0;
+  }
 }
+
 .panel-collapse > .panel-body {
-	padding-top: .5em; //top & bottom should be non-zero
-	padding-bottom: .5em;
+  padding-top: .5em; //top & bottom should be non-zero
+  padding-bottom: .5em;
 }
 
 // minimal chrome
 
-.panel-heading a[role="button"] {
-	padding-left: 1em;
-	position: relative;
-	&:before {
-		position: absolute;
-		left: 0em;
-		top: 0.5em;
-		content: "";
-		width: 0;
-		height: 0;
-		border-top: solid .25em transparent;
-		border-bottom: solid .25em transparent;
-		border-left: solid .25em black;
-		transition: transform .35s;
-		transform: rotate(90deg);
-		display: inline-block;
-		//margin-right: .33em;
-	}
-	&.collapsed:before {
-		transform: rotate(-90deg);
-	}
+.panel-heading a[role="button"],
+.accordion .card-header button {
+  padding-left: 1em;
+  position: relative;
+
+  &:before {
+    position: absolute;
+    left: 0em;
+    top: 0.5em;
+    content: "";
+    width: 0;
+    height: 0;
+    border-top: solid .25em transparent;
+    border-bottom: solid .25em transparent;
+    border-left: solid .25em black;
+    transition: transform .35s;
+    transform: rotate(90deg);
+    display: inline-block;
+    //margin-right: .33em;
+  }
+
+  &.collapsed:before {
+    transform: rotate(-90deg);
+  }
 }
 
 .panel-body {
-	padding-left: 1em;
+  padding-left: 1em;
 }
 
 // _component-animations.scss from Bootstrap 3 (sass), manually un-mixined
