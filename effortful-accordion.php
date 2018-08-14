@@ -27,6 +27,7 @@ elseif (file_exists("$theme_dir/../app/effortful-accordion-config.php")) {
 if (!defined('bootstrap_version')) define('bootstrap_version', 3);
 if (!defined('shortcode_default_mode')) define('shortcode_default_mode', 'accordion');
 if (!defined('shortcode_default_h')) define('shortcode_default_h', 2);
+if (!defined('shortcode_default_open')) define('shortcode_default_open', 'first');
 
 function content_preg_split ($hlevel, $content) {
 	return preg_split(
@@ -58,6 +59,9 @@ function content_split ($mode = 'accordion', $h = 2, $open = 'first', $content =
 	switch ($open) {
 	case 'last':
 		$open_s = count($split) - 2;
+		break;
+	case 'none':
+		$open_s = -1;
 		break;
 	case 'first':
 	default:
@@ -184,7 +188,7 @@ add_shortcode('accordion', function ($atts, $content = null) {
 	$a = shortcode_atts(array(
 		'mode' => shortcode_default_mode,
 		'h' => shortcode_default_h,
-		'open' => 'first'
+		'open' => shortcode_default_open
 	), $atts);
 	return content_split($a['mode'], $a['h'], $a['open'], $content);
 });
