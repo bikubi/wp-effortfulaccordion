@@ -81,7 +81,7 @@ function content_split ($mode = 'accordion', $h = 2, $content = null) {
 				case 3:
 				default:
 					$ret .= '<div class="panel">';
-					$ret .= sprintf('<div class="panel-heading" role="tab" id="%s"><h%d><a role="button" data-toggle="collapse" data-parent="#accordion%s" href="#c_%s" aria-expanded="%s" aria-controls="c_%s" class="%s">%s</a></h%d></div>',
+					$ret .= sprintf('<div class="panel-heading" role="tab" id="%s"><h%d class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accordion%s" href="#c_%s" aria-expanded="%s" aria-controls="c_%s" class="%s">%s</a></h%d></div>',
 						$id, $h, $parent_id_suffix, $id, ($s === 1 ? 'true' : 'false'), $id, ($s === 1 ? '' : 'collapsed'), $_, $h
 					);
 				}
