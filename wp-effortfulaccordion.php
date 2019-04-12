@@ -43,10 +43,6 @@ function sanitize_str ($str, $fallback) {
 }
 
 function content_split ($mode = 'accordion', $h = 2, $open = 'first', $content = null) {
-	global $post;
-	if ($content === null) {
-		$content = $post->post_content;
-	}
 	$parent_id_suffix = $mode === 'accordion' ? '_'.md5($content) : '';
 	$split = content_preg_split($h, $content);
 	if (count($split) < 2) {
