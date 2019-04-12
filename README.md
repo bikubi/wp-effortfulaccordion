@@ -48,5 +48,5 @@ More content content content.
 
 ## TODO
 
-* Only modes `accordion`, `wrap` and `outerwrap` are tested.
+* Only modes `accordion`, `wrap`, `outerwrap` and `doublewrap` are tested.
 * Makefile (?) for effortfulaccordion.scss→css

@@ -86,8 +86,9 @@ function content_split ($mode = 'accordion', $h = 2, $open = 'first', $wrap_prea
 				$ret .= sprintf('<h%d>%s</h%d>', $h, $_, $h);
 				break;
 			case 'outerwrap':
-				$ret .= sprintf('<%s class="%s-outer">', wrap_tag, wrap_baseclass);
-				$ret .= sprintf('<h%d>%s</h%d>', $h, $_, $h);
+            case 'doublewrap':
+				$ret .= sprintf('<%s class="%s">', wrap_tag, wrap_baseclass);
+				$ret .= sprintf('<h%d class="%s-title">%s</h%d>', $h, wrap_baseclass, $_, $h);
 				break;
 			case 'accordion':
 				switch (bootstrap_version) {
@@ -131,6 +132,9 @@ function content_split ($mode = 'accordion', $h = 2, $open = 'first', $wrap_prea
 			case 'outerwrap':
 				$ret .= sprintf('%s</%s>%s', $lowerh_pre, wrap_tag, $lowerh_post);
 				break;
+            case 'doublewrap':
+				$ret .= sprintf('<div class="%s-body">%s</div></%s>%s', wrap_baseclass, $lowerh_pre, wrap_tag, $lowerh_post);
+                break;
 			case 'accordion':
 				switch (bootstrap_version) {
 				case 4:
@@ -177,15 +181,16 @@ function content_split ($mode = 'accordion', $h = 2, $open = 'first', $wrap_prea
 	case 'multicol':
 		return $pre.'<div class="cols cols3">'.$ret.'</div>';
     case 'wrap':
+    case 'outerwrap':
         if ($wrap_preamble) {
-            return sprintf('<%s class="%s-body %s-preamble">%s</%s>%s', wrap_tag, wrap_baseclass, wrap_baseclass, $pre, wrap_tag, $ret);
+            return sprintf('<%s class="%s %s-preamble">%s</%s>%s', wrap_tag, wrap_baseclass, wrap_baseclass, $pre, wrap_tag, $ret);
         }
         else {
             return $pre.$ret;
         }
-    case 'outerwrap':
+    case 'doublewrap':
         if ($wrap_preamble) {
-            return sprintf('<%s class="%s-outer %s-preamble">%s</%s>%s', wrap_tag, wrap_baseclass, wrap_baseclass, $pre, wrap_tag, $ret);
+            return sprintf('<%s class="%s %s-preamble"><div class="%s-body">%s</div></%s>%s', wrap_tag, wrap_baseclass, wrap_baseclass, wrap_baseclass, $pre, wrap_tag, $ret);
         }
         else {
             return $pre.$ret;
