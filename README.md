@@ -1,19 +1,19 @@
-#Effortful Accordion
+# Effortful Accordion
 
 A WordPress plugin. Transforms content-with-headings into an accordion, tabbed content or columns.
 
-##Config
+## Config
 
 The plugin looks for a configuration file in your theme, since the layout depends on the theme.
 Put it in the most convenient of following places:
 
-```
+```sh
 .../wp-content/yourtheme/effortful-accordion-config.php
 .../wp-content/yourtheme/lib/effortful-accordion-config.php # sage 8
 .../wp-content/yourtheme/app/effortful-accordion-config.php # sage 9
 ```
 
-##Usage
+## Usage
 
 The main function `content_split`, as well as the Shortcode, take two optional parameters:
 
@@ -27,15 +27,15 @@ See `config-example.php`.
 
 For **accordions**, define your preferred Bootstrap version (3 and 4 are supported) like so:
 
-```
+```php
 define('bootstrap_version', 4);
 ```
 
 If you don't use Bootstrap in your theme, you can `wp_*_enqueue` `effortful-accordion.js` and `effortful-accordion.css`, which contain the relevant bits. In this case, `bootstrap_version` must be `3`.
 
-##Explicit content transformation via Shortcode
+## Explicit content transformation via Shortcode
 
-```
+```html
 Content content content.
 [accordion mode="accordion" h="2"]
 <h2>First heading<h2>
@@ -46,6 +46,6 @@ Content related to the second heading.
 More content content content.
 ```
 
-##TODO
+## TODO
 
 * All modes except `accordion` are untested, and need fallback CSS.
