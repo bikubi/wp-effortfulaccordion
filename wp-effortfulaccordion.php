@@ -8,7 +8,7 @@ Author URI: http://3c33.de/
 Text Domain: wp-effortfulaccordion
 */
 
-namespace EffortfulAccordion;
+namespace WPEffortfulAccordion;
 
 $theme_dir = get_template_directory();
 if (file_exists("$theme_dir/wp-effortfulaccordion-config.php")) {
@@ -18,16 +18,25 @@ if (file_exists("$theme_dir/wp-effortfulaccordion-config.php")) {
 elseif (file_exists("$theme_dir/lib/wp-effortfulaccordion-config.php")) {
 	include "$theme_dir/lib/wp-effortfulaccordion-config.php";
 }
-// compatibility with sage 9, which points to theme/resources... 
+// compatibility with sage 9, which points to theme/resources...
 elseif (file_exists("$theme_dir/../app/wp-effortfulaccordion-config.php")) {
 	include "$theme_dir/../app/wp-effortfulaccordion-config.php";
 }
 
 /* defaults */
-if (!defined('bootstrap_version')) define('bootstrap_version', 3);
-if (!defined('shortcode_default_mode')) define('shortcode_default_mode', 'accordion');
-if (!defined('shortcode_default_h')) define('shortcode_default_h', 2);
-if (!defined('shortcode_default_open')) define('shortcode_default_open', 'first');
+if (!defined('WPEffortfulAccordion\bootstrap_version'))
+    define('WPEffortfulAccordion\bootstrap_version', 3);
+if (!defined('WPEffortfulAccordion\shortcode_default_mode'))
+    define('WPEffortfulAccordion\shortcode_default_mode', 'accordion');
+if (!defined('WPEffortfulAccordion\shortcode_default_h'))
+    define('WPEffortfulAccordion\shortcode_default_h', 2);
+if (!defined('WPEffortfulAccordion\shortcode_default_open'))
+    define('WPEffortfulAccordion\shortcode_default_open', 'first');
+
+if (!defined('WPEffortfulAccordion\wrap_tag'))
+    define('WPEffortfulAccordion\wrap_tag', 'div');
+if (!defined('WPEffortfulAccordion\wrap_baseclass'))
+    define('WPEffortfulAccordion\wrap_baseclass', 'hwrap');
 
 function content_preg_split ($hlevel, $content) {
 	return preg_split(
@@ -42,7 +51,7 @@ function sanitize_str ($str, $fallback) {
 	);
 }
 
-function content_split ($mode = 'accordion', $h = 2, $open = 'first', $content = null) {
+function content_split ($mode = 'accordion', $h = 2, $open = 'first', $wrap_preamble = false, $content = null) {
 	$parent_id_suffix = $mode === 'accordion' ? '_'.md5($content) : '';
 	$split = content_preg_split($h, $content);
 	if (count($split) < 2) {
@@ -74,11 +83,10 @@ function content_split ($mode = 'accordion', $h = 2, $open = 'first', $content =
 			case 'tabs':
 				$ret .= sprintf('<h%d>%s</h%d>', $h, $_, $h);
 			case 'wrap':
-				//$ret .= sprintf('<div class="hwrap h%d">', $h);
 				$ret .= sprintf('<h%d>%s</h%d>', $h, $_, $h);
 				break;
 			case 'outerwrap':
-				$ret .= '<div class="hwrap-outer">';
+				$ret .= sprintf('<%s class="%s-outer">', wrap_tag, wrap_baseclass);
 				$ret .= sprintf('<h%d>%s</h%d>', $h, $_, $h);
 				break;
 			case 'accordion':
@@ -118,11 +126,10 @@ function content_split ($mode = 'accordion', $h = 2, $open = 'first', $content =
 				$ret .= sprintf('<div class="tab" id="%s">%s</div>%s', $id, $lowerh_pre, $lowerh_post);
 				break;
 			case 'wrap':
-				$ret .= sprintf('<div class="hwrap-body">%s</div>%s', $lowerh_pre, $lowerh_post);
-				//$ret .= '</div><!--end class="hwrap"-->';
+				$ret .= sprintf('<%s class="%s-body">%s</%s>%s', wrap_tag, wrap_baseclass, $lowerh_pre, wrap_tag, $lowerh_post);
 				break;
 			case 'outerwrap':
-				$ret .= $lowerh_pre.'</div>'.$lowerh_post;
+				$ret .= sprintf('%s</%s>%s', $lowerh_pre, wrap_tag, $lowerh_post);
 				break;
 			case 'accordion':
 				switch (bootstrap_version) {
@@ -136,7 +143,7 @@ function content_split ($mode = 'accordion', $h = 2, $open = 'first', $content =
 				case 3:
 				default:
 					$ret .= sprintf('<div id="c_%s" class="panel-collapse collapse %s" role="tabpanel" aria-labelledby="%s"><div class="panel-body">%s</div></div>',
-						$id, ($is_open ? 'in' : ''), $id, $lowerh_pre 
+						$id, ($is_open ? 'in' : ''), $id, $lowerh_pre
 					);
 					$ret .= '</div><!--end class="panel-->';
 					$ret .= $lowerh_post;
@@ -169,6 +176,20 @@ function content_split ($mode = 'accordion', $h = 2, $open = 'first', $content =
 		return $pre.'<div class="cols cols2"><div>'.$ret.'</div></div>';
 	case 'multicol':
 		return $pre.'<div class="cols cols3">'.$ret.'</div>';
+    case 'wrap':
+        if ($wrap_preamble) {
+            return sprintf('<%s class="%s-body %s-preamble">%s</%s>%s', wrap_tag, wrap_baseclass, wrap_baseclass, $pre, wrap_tag, $ret);
+        }
+        else {
+            return $pre.$ret;
+        }
+    case 'outerwrap':
+        if ($wrap_preamble) {
+            return sprintf('<%s class="%s-outer %s-preamble">%s</%s>%s', wrap_tag, wrap_baseclass, wrap_baseclass, $pre, wrap_tag, $ret);
+        }
+        else {
+            return $pre.$ret;
+        }
 	default:
 		return $pre.$ret;
 	}
