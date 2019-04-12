@@ -5,22 +5,22 @@ Description: Convert content with headings to accordions. Flexible and once set 
 Version: 0.1.0
 Author: Jakob Wierzba
 Author URI: http://3c33.de/
-Text Domain: effortful-accordion
+Text Domain: wp-effortfulaccordion
 */
 
 namespace EffortfulAccordion;
 
 $theme_dir = get_template_directory();
-if (file_exists("$theme_dir/effortful-accordion-config.php")) {
-	include "$theme_dir/effortful-accordion-config.php";
+if (file_exists("$theme_dir/wp-effortfulaccordion-config.php")) {
+	include "$theme_dir/wp-effortfulaccordion-config.php";
 }
 // sage 8
-elseif (file_exists("$theme_dir/lib/effortful-accordion-config.php")) {
-	include "$theme_dir/lib/effortful-accordion-config.php";
+elseif (file_exists("$theme_dir/lib/wp-effortfulaccordion-config.php")) {
+	include "$theme_dir/lib/wp-effortfulaccordion-config.php";
 }
 // compatibility with sage 9, which points to theme/resources... 
-elseif (file_exists("$theme_dir/../app/effortful-accordion-config.php")) {
-	include "$theme_dir/../app/effortful-accordion-config.php";
+elseif (file_exists("$theme_dir/../app/wp-effortfulaccordion-config.php")) {
+	include "$theme_dir/../app/wp-effortfulaccordion-config.php";
 }
 
 /* defaults */

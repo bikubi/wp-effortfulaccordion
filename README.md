@@ -8,9 +8,9 @@ The plugin looks for a configuration file in your theme, since the layout depend
 Put it in the most convenient of following places:
 
 ```sh
-.../wp-content/yourtheme/effortful-accordion-config.php
-.../wp-content/yourtheme/lib/effortful-accordion-config.php # sage 8
-.../wp-content/yourtheme/app/effortful-accordion-config.php # sage 9
+.../wp-content/yourtheme/wp-effortfulaccordion-config.php
+.../wp-content/yourtheme/lib/wp-effortfulaccordion-config.php # sage 8
+.../wp-content/yourtheme/app/wp-effortfulaccordion-config.php # sage 9
 ```
 
 ## Usage
@@ -31,7 +31,7 @@ For **accordions**, define your preferred Bootstrap version (3 and 4 are support
 define('bootstrap_version', 4);
 ```
 
-If you don't use Bootstrap in your theme, you can `wp_*_enqueue` `effortful-accordion.js` and `effortful-accordion.css`, which contain the relevant bits. In this case, `bootstrap_version` must be `3`.
+If you don't use Bootstrap in your theme, you can `wp_*_enqueue` `effortfulaccordion.js` and `effortfulaccordion.css`, which contain the relevant bits. In this case, `bootstrap_version` must be `3`.
 
 ## Explicit content transformation via Shortcode
 
@@ -49,3 +49,4 @@ More content content content.
 ## TODO
 
 * All modes except `accordion` are untested, and need fallback CSS.
+* Makefile (?) for effortfulaccordion.scss→css
