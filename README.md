@@ -48,5 +48,5 @@ More content content content.
 
 ## TODO
 
-* All modes except `accordion` are untested, and need fallback CSS.
+* Only modes `accordion`, `wrap` and `outerwrap` are tested.
 * Makefile (?) for effortfulaccordion.scss→css

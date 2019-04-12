@@ -2,7 +2,7 @@
 /*
 Plugin Name: Effortful Accordion
 Description: Convert content with headings to accordions. Flexible and once set up and configured, simple to use for end-users.
-Version: 0.1.0
+Version: 0.2.0
 Author: Jakob Wierzba
 Author URI: http://3c33.de/
 Text Domain: wp-effortfulaccordion
@@ -177,9 +177,10 @@ function content_split ($mode = 'accordion', $h = 2, $open = 'first', $content =
 		return $pre.$ret;
 	}
 }
+
+/* strip excess <p>s from shortcodes that are wpautop'ed, like:
+ * <p>[shortcode]</p> */
 add_filter('the_content', function ($content) {
-        /* shortcodes, die alleine in einer Zeile stehen, erhalten u.U. <p>s:
-           <p>[spalte]</p> - diese werden hiermit entfernt: */
         $content = preg_replace('@(?:</?p>)?(\[/?accordion?[\s\d\w="]*\])(?:</?p>)?@', '$1', $content);
 	return $content;
 });
