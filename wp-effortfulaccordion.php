@@ -37,6 +37,8 @@ if (!defined('WPEffortfulAccordion\wrap_tag'))
     define('WPEffortfulAccordion\wrap_tag', 'div');
 if (!defined('WPEffortfulAccordion\wrap_baseclass'))
     define('WPEffortfulAccordion\wrap_baseclass', 'hwrap');
+if (!defined('WPEffortfulAccordion\accordion_bullet'))
+    define('WPEffortfulAccordion\accordion_bullet', '');
 
 function content_preg_split ($hlevel, $content) {
 	return preg_split(
@@ -94,14 +96,14 @@ function content_split ($mode = 'accordion', $h = 2, $open = 'first', $wrap_prea
 				switch (bootstrap_version) {
 				case 4:
 					$ret .= '<div class="card">';
-					$ret .= sprintf('<div class="card-header" id="%s"><h%d><button class="btn btn-link %s" data-toggle="collapse" data-target="#c_%s" aria-expanded="%s" aria-controls="c_%s">%s</button></h%d></div>',
-						$id, $h, ($is_open ? '' : 'collapsed'), $id, ($s === $is_open ? 'true' : 'false'), $id, $_, $h);
+					$ret .= sprintf('<div class="card-header" id="%s"><h%d><button class="btn btn-link %s" data-toggle="collapse" data-target="#c_%s" aria-expanded="%s" aria-controls="c_%s">%s%s</button></h%d></div>',
+						$id, $h, ($is_open ? '' : 'collapsed'), $id, ($s === $is_open ? 'true' : 'false'), $id, accordion_bullet, $_, $h);
 					break;
 				case 3:
 				default:
 					$ret .= '<div class="panel">';
-					$ret .= sprintf('<div class="panel-heading" role="tab" id="%s"><h%d class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accordion%s" href="#c_%s" aria-expanded="%s" aria-controls="c_%s" class="%s">%s</a></h%d></div>',
-						$id, $h, $parent_id_suffix, $id, ($is_open ? 'true' : 'false'), $id, ($is_open ? '' : 'collapsed'), $_, $h
+					$ret .= sprintf('<div class="panel-heading" role="tab" id="%s"><h%d class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accordion%s" href="#c_%s" aria-expanded="%s" aria-controls="c_%s" class="%s">%s%s</a></h%d></div>',
+						$id, $h, $parent_id_suffix, $id, ($is_open ? 'true' : 'false'), $id, ($is_open ? '' : 'collapsed'), accordion_bullet, $_, $h
 					);
 				}
 				break;
