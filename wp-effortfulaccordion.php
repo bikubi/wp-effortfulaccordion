@@ -22,6 +22,9 @@ elseif (file_exists("$theme_dir/lib/wp-effortfulaccordion-config.php")) {
 elseif (file_exists("$theme_dir/../app/wp-effortfulaccordion-config.php")) {
 	include "$theme_dir/../app/wp-effortfulaccordion-config.php";
 }
+elseif (file_exists("$theme_dir/app/wp-effortfulaccordion-config.php")) {
+	include "$theme_dir/app/wp-effortfulaccordion-config.php";
+}
 
 /* defaults */
 if (!defined('WPEffortfulAccordion\bootstrap_version'))
@@ -173,7 +176,7 @@ function content_split ($mode = 'accordion', $h = 2, $open = 'first', $wrap_prea
 	case 'tabs':
 		return $pre.'<div class="content tabbed">'.$ret.'</div>';
 	case 'accordion':
-		return sprintf('<div class="%s" id="accordion%s" role="tablist" aria-multiselectable="true">%s</div>',
+		return $pre.sprintf('<div class="%s" id="accordion%s" role="tablist" aria-multiselectable="true">%s</div>',
 			bootstrap_version === 3 ? 'panel-group' : 'accordion',
 			$parent_id_suffix,
 			$ret
